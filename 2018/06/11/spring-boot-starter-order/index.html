@@ -5,21 +5,21 @@
   
 
   
-  <title>SpringBoot启动及定制化开发 | Hexo</title>
+  <title>SpringBoot启动及定制化开发 | 钓鱼的码农</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="本文来分析SpringBoot启动过程，以及部分可定制化开发的点。主要可以分为下面几种：  初始化器 (Initializer) 监听器（Listener） 容器刷新后置Runners(ApplicationRunner或者CommandLineRunner接口的实现类) 启动期间在Console打印Banner的具体实现类  参考: Spring Boot 启动过程定制化">
 <meta name="keywords" content="springboot">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringBoot启动及定制化开发">
 <meta property="og:url" content="http://yoursite.com/2018/06/11/spring-boot-starter-order/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="钓鱼的码农">
 <meta property="og:description" content="本文来分析SpringBoot启动过程，以及部分可定制化开发的点。主要可以分为下面几种：  初始化器 (Initializer) 监听器（Listener） 容器刷新后置Runners(ApplicationRunner或者CommandLineRunner接口的实现类) 启动期间在Console打印Banner的具体实现类  参考: Spring Boot 启动过程定制化">
 <meta property="og:updated_time" content="2018-06-11T15:16:57.489Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringBoot启动及定制化开发">
 <meta name="twitter:description" content="本文来分析SpringBoot启动过程，以及部分可定制化开发的点。主要可以分为下面几种：  初始化器 (Initializer) 监听器（Listener） 容器刷新后置Runners(ApplicationRunner或者CommandLineRunner接口的实现类) 启动期间在Console打印Banner的具体实现类  参考: Spring Boot 启动过程定制化">
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="钓鱼的码农" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -38,8 +38,12 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
+        <a href="/" id="logo">钓鱼的码农</a>
       </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一起fishing，一起coding</a>
+        </h2>
       
     </div>
     <div id="header-inner" class="inner">
@@ -98,7 +102,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/11/spring-boot-starter-order/" data-id="cjjghw0qb0004uyq366rih1js" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2018/06/11/spring-boot-starter-order/" data-id="cjjr8ma3n0004lijb1xsjamho" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/">springboot</a></li></ul>
@@ -119,9 +123,9 @@
     </a>
   
   
-    <a href="/2018/01/26/test-my-site/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/01/26/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Älter</strong>
-      <div class="article-nav-title">test_my_site</div>
+      <div class="article-nav-title">Hello World</div>
     </a>
   
 </nav>
@@ -140,7 +144,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/intelij/">intelij</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jrebel/">jrebel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/">springboot</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/face/">face</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/intelij/">intelij</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javacv/">javacv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jrebel/">jrebel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logstash-kafka-elk/">logstash, kafka, elk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opencv/">opencv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/人脸识别/">人脸识别</a></li></ul>
     </div>
   </div>
 
@@ -150,7 +154,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/intelij/" style="font-size: 20px;">intelij</a> <a href="/tags/jrebel/" style="font-size: 10px;">jrebel</a> <a href="/tags/springboot/" style="font-size: 10px;">springboot</a>
+      <a href="/tags/face/" style="font-size: 10px;">face</a> <a href="/tags/intelij/" style="font-size: 10px;">intelij</a> <a href="/tags/javacv/" style="font-size: 10px;">javacv</a> <a href="/tags/jrebel/" style="font-size: 10px;">jrebel</a> <a href="/tags/logstash-kafka-elk/" style="font-size: 10px;">logstash, kafka, elk</a> <a href="/tags/opencv/" style="font-size: 10px;">opencv</a> <a href="/tags/springboot/" style="font-size: 10px;">springboot</a> <a href="/tags/人脸识别/" style="font-size: 10px;">人脸识别</a>
     </div>
   </div>
 
@@ -172,15 +176,19 @@
       <ul>
         
           <li>
+            <a href="/2018/07/18/logstash-input-kafka-version/">logstash-6.2.3无法消费kafka-0.9.0</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/12/javacv-face-recognizer/">JavaCV进行人脸识别</a>
+          </li>
+        
+          <li>
             <a href="/2018/07/10/intelij-jrebel-crack/">Jrebel热部署插件破解</a>
           </li>
         
           <li>
             <a href="/2018/06/11/spring-boot-starter-order/">SpringBoot启动及定制化开发</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/26/test-my-site/">test_my_site</a>
           </li>
         
           <li>
@@ -199,7 +207,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2018 John Doe<br>
+      &copy; 2018 kaden<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
