@@ -1,94 +1,323 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
+
+
 
   
-  <title>logstash-6.2.3无法消费kafka-0.9.0 | 钓鱼的码农</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="近期在对公司的ELK进行版本升级，kafka使用的版本为：kafka_2.11-0.9.0.1，logstash版本为：logstash-6.2.3，在使用 logstash 对 kafka进行消费时，发现数据无法消费，kafka-server端报错。将 kafka 升级到 kafka_2.11-0.10.1.1 后，数据正常消费。 由于各种原因，kafka不能及时升级，所以想办法从logstas">
+
+
+<html class="theme-next mist use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="logstash, kafka, elk," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="近期在对公司的ELK进行版本升级，kafka使用的版本为：kafka_2.11-0.9.0.1，logstash版本为：logstash-6.2.3，在使用 logstash 对 kafka进行消费时，发现数据无法消费，kafka-server端报错。将 kafka 升级到 kafka_2.11-0.10.1.1 后，数据正常消费。 由于各种原因，kafka不能及时升级，所以想办法从logstas">
 <meta name="keywords" content="logstash, kafka, elk">
 <meta property="og:type" content="article">
 <meta property="og:title" content="logstash-6.2.3无法消费kafka-0.9.0">
 <meta property="og:url" content="http://yoursite.com/2018/07/18/logstash-input-kafka-version/index.html">
 <meta property="og:site_name" content="钓鱼的码农">
 <meta property="og:description" content="近期在对公司的ELK进行版本升级，kafka使用的版本为：kafka_2.11-0.9.0.1，logstash版本为：logstash-6.2.3，在使用 logstash 对 kafka进行消费时，发现数据无法消费，kafka-server端报错。将 kafka 升级到 kafka_2.11-0.10.1.1 后，数据正常消费。 由于各种原因，kafka不能及时升级，所以想办法从logstas">
-<meta property="og:updated_time" content="2018-07-18T14:30:02.289Z">
+<meta property="og:updated_time" content="2018-07-26T08:48:48.883Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="logstash-6.2.3无法消费kafka-0.9.0">
 <meta name="twitter:description" content="近期在对公司的ELK进行版本升级，kafka使用的版本为：kafka_2.11-0.9.0.1，logstash版本为：logstash-6.2.3，在使用 logstash 对 kafka进行消费时，发现数据无法消费，kafka-server端报错。将 kafka 升级到 kafka_2.11-0.10.1.1 后，数据正常消费。 由于各种原因，kafka不能及时升级，所以想办法从logstas">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/18/logstash-input-kafka-version/"/>
+
+
+
+
+
+  <title>logstash-6.2.3无法消费kafka-0.9.0 | 钓鱼的码农</title>
   
-    <link rel="alternate" href="/atom.xml" title="钓鱼的码农" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bc4f8c25636b6e44ca6f01b861370e03";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
 </head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">钓鱼的码农</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">一起fishing，一起coding</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Buscar"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-logstash-input-kafka-version" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/07/18/logstash-input-kafka-version/" class="article-date">
-  <time datetime="2018-07-18T09:53:58.000Z" itemprop="datePublished">2018-07-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
   
-    <h1 class="article-title" itemprop="name">
-      logstash-6.2.3无法消费kafka-0.9.0
-    </h1>
+  
+    
   
 
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">钓鱼的码农</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">一起fishing，一起coding</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/18/logstash-input-kafka-version/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kaden">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="钓鱼的码农">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">logstash-6.2.3无法消费kafka-0.9.0</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-18T17:53:58+08:00">
+                2018-07-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p>近期在对公司的ELK进行版本升级，kafka使用的版本为：kafka_2.11-0.9.0.1，logstash版本为：logstash-6.2.3，<br>在使用 logstash 对 kafka进行消费时，发现数据无法消费，kafka-server端报错。<br>将 kafka 升级到 kafka_2.11-0.10.1.1 后，数据正常消费。</p>
 <p>由于各种原因，kafka不能及时升级，所以想办法从logstash端考虑解决该问题。通过 <a href="https://www.elastic.co/guide/en/logstash/6.2/plugins-inputs-kafka.html" target="_blank" rel="noopener">logstash官网</a><br>了解到，6.2.3使用的kafka版本为 1.0.0。</p>
@@ -136,156 +365,407 @@
 </tbody>
 </table>
 <p>通过上表对应关系，下载 <a href="https://rubygems.org/gems/logstash-input-kafka/versions/4.2.0" target="_blank" rel="noopener">logstash-input-kafka-4.2.0.gem</a></p>
-<h3 id="问题复现"><a href="#问题复现" class="headerlink" title="问题复现"></a>问题复现</h3><h4 id="1-启动kafka-0-9"><a href="#1-启动kafka-0-9" class="headerlink" title="1.启动kafka 0.9"></a>1.启动kafka 0.9</h4><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  kafka_2.11-0.9.0.1 ./bin/kafka-server-start.sh config/server.properties</span><br></pre></td></tr></table></figure>
-<h4 id="2-编码程序不停往-logs9-中生产数据"><a href="#2-编码程序不停往-logs9-中生产数据" class="headerlink" title="2. 编码程序不停往 logs9 中生产数据"></a>2. 编码程序不停往 logs9 中生产数据</h4><p>这里采用 log4j2 -&gt; kafka 来实现这一功能。</p>
+<h3 id="问题复现"><a href="#问题复现" class="headerlink" title="问题复现"></a>问题复现</h3><h4 id="启动kafka-0-9"><a href="#启动kafka-0-9" class="headerlink" title="启动kafka 0.9"></a>启动kafka 0.9</h4><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  kafka_2.11-0.9.0.1 ./bin/kafka-server-start.sh config/server.properties</span><br></pre></td></tr></table></figure>
+<h4 id="编码程序不停往-logs9-中生产数据"><a href="#编码程序不停往-logs9-中生产数据" class="headerlink" title="编码程序不停往 logs9 中生产数据"></a>编码程序不停往 logs9 中生产数据</h4><p>这里采用 log4j2 -&gt; kafka 来实现这一功能。</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">Configuration</span> <span class="attr">status</span>=<span class="string">"warn"</span> <span class="attr">name</span>=<span class="string">"MyApp"</span> <span class="attr">packages</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Appenders</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Console</span> <span class="attr">name</span>=<span class="string">"STDOUT"</span> <span class="attr">target</span>=<span class="string">"SYSTEM_OUT"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">PatternLayout</span> <span class="attr">pattern</span>=<span class="string">"%m%n"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">Console</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Kafka</span> <span class="attr">name</span>=<span class="string">"Kafka"</span> <span class="attr">topic</span>=<span class="string">"logs9"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">PatternLayout</span> <span class="attr">pattern</span>=<span class="string">"%date %message"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">Property</span> <span class="attr">name</span>=<span class="string">"bootstrap.servers"</span>&gt;</span>localhost:9092<span class="tag">&lt;/<span class="name">Property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">Kafka</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">Appenders</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Loggers</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Root</span> <span class="attr">level</span>=<span class="string">"info"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">AppenderRef</span> <span class="attr">ref</span>=<span class="string">"STDOUT"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">AppenderRef</span> <span class="attr">ref</span>=<span class="string">"Kafka"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">Root</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">Loggers</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> huke</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span> 18/7/2018</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Tes</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(Tes.class);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testLog</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">1000</span>; i++) &#123;</span><br><span class="line">            logger.info(<span class="string">"hello "</span> + i);</span><br><span class="line">            TimeUnit.SECONDS.sleep(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="3-配置logstash消费kafka"><a href="#3-配置logstash消费kafka" class="headerlink" title="3. 配置logstash消费kafka"></a>3. 配置logstash消费kafka</h4><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">input &#123;</span><br><span class="line">  kafka &#123;</span><br><span class="line">    bootstrap_servers =&gt; "localhost:9092"</span><br><span class="line">    group_id =&gt; "huke-log-test"</span><br><span class="line">    topics =&gt; ["logs9"]</span><br><span class="line">    key_deserializer_class =&gt; "org.apache.kafka.common.serialization.ByteArrayDeserializer"</span><br><span class="line">    value_deserializer_class =&gt; "org.apache.kafka.common.serialization.ByteArrayDeserializer"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">output &#123;</span><br><span class="line">  stdout &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="4-启动logstash"><a href="#4-启动logstash" class="headerlink" title="4. 启动logstash"></a>4. 启动logstash</h4><p>logstash 启动后，无kafka数据输出，控台数据如下：</p>
+<h4 id="配置logstash消费kafka"><a href="#配置logstash消费kafka" class="headerlink" title="配置logstash消费kafka"></a>配置logstash消费kafka</h4><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">input &#123;</span><br><span class="line">  kafka &#123;</span><br><span class="line">    bootstrap_servers =&gt; "localhost:9092"</span><br><span class="line">    group_id =&gt; "huke-log-test"</span><br><span class="line">    topics =&gt; ["logs9"]</span><br><span class="line">    key_deserializer_class =&gt; "org.apache.kafka.common.serialization.ByteArrayDeserializer"</span><br><span class="line">    value_deserializer_class =&gt; "org.apache.kafka.common.serialization.ByteArrayDeserializer"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">output &#123;</span><br><span class="line">  stdout &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="启动logstash"><a href="#启动logstash" class="headerlink" title="启动logstash"></a>启动logstash</h4><p>logstash 启动后，无kafka数据输出，控台数据如下：</p>
 <figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">➜  logstash-6.2.3 ./bin/logstash -f test.conf </span><br><span class="line">Sending Logstash's logs to /Users/huke/Applications/logstash-6.2.3/logs which is now configured via log4j2.properties</span><br><span class="line">[2018-07-18T21:59:32,564][INFO ][logstash.modules.scaffold] Initializing module &#123;:module_name=&gt;"netflow", :directory=&gt;"/Users/huke/Applications/logstash-6.2.3/modules/netflow/configuration"&#125;</span><br><span class="line">[2018-07-18T21:59:32,579][INFO ][logstash.modules.scaffold] Initializing module &#123;:module_name=&gt;"fb_apache", :directory=&gt;"/Users/huke/Applications/logstash-6.2.3/modules/fb_apache/configuration"&#125;</span><br><span class="line">[2018-07-18T21:59:32,672][INFO ][logstash.setting.writabledirectory] Creating directory &#123;:setting=&gt;"path.queue", :path=&gt;"/Users/huke/Applications/logstash-6.2.3/data/queue"&#125;</span><br><span class="line">[2018-07-18T21:59:32,676][INFO ][logstash.setting.writabledirectory] Creating directory &#123;:setting=&gt;"path.dead_letter_queue", :path=&gt;"/Users/huke/Applications/logstash-6.2.3/data/dead_letter_queue"&#125;</span><br><span class="line">[2018-07-18T21:59:32,866][WARN ][logstash.config.source.multilocal] Ignoring the 'pipelines.yml' file because modules or command line options are specified</span><br><span class="line">[2018-07-18T21:59:32,903][INFO ][logstash.agent           ] No persistent UUID file found. Generating new UUID &#123;:uuid=&gt;"4ffdbad6-d1dc-45c4-b4f5-72cee9e4a928", :path=&gt;"/Users/huke/Applications/logstash-6.2.3/data/uuid"&#125;</span><br><span class="line">[2018-07-18T21:59:33,483][INFO ][logstash.runner          ] Starting Logstash &#123;"logstash.version"=&gt;"6.2.3"&#125;</span><br><span class="line">[2018-07-18T21:59:34,063][INFO ][logstash.agent           ] Successfully started Logstash API endpoint &#123;:port=&gt;9600&#125;</span><br><span class="line">[2018-07-18T21:59:36,210][INFO ][logstash.pipeline        ] Starting pipeline &#123;:pipeline_id=&gt;"main", "pipeline.workers"=&gt;8, "pipeline.batch.size"=&gt;125, "pipeline.batch.delay"=&gt;50&#125;</span><br><span class="line">[2018-07-18T21:59:36,296][INFO ][logstash.pipeline        ] Pipeline started succesfully &#123;:pipeline_id=&gt;"main", :thread=&gt;"#&lt;Thread:0x3a4b8849 run&gt;"&#125;</span><br><span class="line">[2018-07-18T21:59:36,562][INFO ][org.apache.kafka.clients.consumer.ConsumerConfig] ConsumerConfig values: </span><br><span class="line">	auto.commit.interval.ms = 5000</span><br><span class="line">	auto.offset.reset = latest</span><br><span class="line">	bootstrap.servers = [localhost:9092]</span><br><span class="line">	check.crcs = true</span><br><span class="line">	client.id = logstash-0</span><br><span class="line">	connections.max.idle.ms = 540000</span><br><span class="line">	enable.auto.commit = true</span><br><span class="line">	exclude.internal.topics = true</span><br><span class="line">	fetch.max.bytes = 52428800</span><br><span class="line">	fetch.max.wait.ms = 500</span><br><span class="line">	fetch.min.bytes = 1</span><br><span class="line">	group.id = huke-log-test</span><br><span class="line">	heartbeat.interval.ms = 3000</span><br><span class="line">	interceptor.classes = null</span><br><span class="line">	internal.leave.group.on.close = true</span><br><span class="line">	isolation.level = read_uncommitted</span><br><span class="line">	key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer</span><br><span class="line">	max.partition.fetch.bytes = 1048576</span><br><span class="line">	max.poll.interval.ms = 300000</span><br><span class="line">	max.poll.records = 500</span><br><span class="line">	metadata.max.age.ms = 300000</span><br><span class="line">	metric.reporters = []</span><br><span class="line">	metrics.num.samples = 2</span><br><span class="line">	metrics.recording.level = INFO</span><br><span class="line">	metrics.sample.window.ms = 30000</span><br><span class="line">	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor]</span><br><span class="line">	receive.buffer.bytes = 65536</span><br><span class="line">	reconnect.backoff.max.ms = 1000</span><br><span class="line">	reconnect.backoff.ms = 50</span><br><span class="line">	request.timeout.ms = 305000</span><br><span class="line">	retry.backoff.ms = 100</span><br><span class="line">	sasl.jaas.config = null</span><br><span class="line">	sasl.kerberos.kinit.cmd = /usr/bin/kinit</span><br><span class="line">	sasl.kerberos.min.time.before.relogin = 60000</span><br><span class="line">	sasl.kerberos.service.name = null</span><br><span class="line">	sasl.kerberos.ticket.renew.jitter = 0.05</span><br><span class="line">	sasl.kerberos.ticket.renew.window.factor = 0.8</span><br><span class="line">	sasl.mechanism = GSSAPI</span><br><span class="line">	security.protocol = PLAINTEXT</span><br><span class="line">	send.buffer.bytes = 131072</span><br><span class="line">	session.timeout.ms = 10000</span><br><span class="line">	ssl.cipher.suites = null</span><br><span class="line">	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]</span><br><span class="line">	ssl.endpoint.identification.algorithm = null</span><br><span class="line">	ssl.key.password = null</span><br><span class="line">	ssl.keymanager.algorithm = SunX509</span><br><span class="line">	ssl.keystore.location = null</span><br><span class="line">	ssl.keystore.password = null</span><br><span class="line">	ssl.keystore.type = JKS</span><br><span class="line">	ssl.protocol = TLS</span><br><span class="line">	ssl.provider = null</span><br><span class="line">	ssl.secure.random.implementation = null</span><br><span class="line">	ssl.trustmanager.algorithm = PKIX</span><br><span class="line">	ssl.truststore.location = null</span><br><span class="line">	ssl.truststore.password = null</span><br><span class="line">	ssl.truststore.type = JKS</span><br><span class="line">	value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer</span><br><span class="line"></span><br><span class="line">[2018-07-18T21:59:36,606][INFO ][logstash.agent           ] Pipelines running &#123;:count=&gt;1, :pipelines=&gt;["main"]&#125;</span><br><span class="line">[2018-07-18T21:59:36,652][INFO ][org.apache.kafka.common.utils.AppInfoParser] Kafka version : 1.0.0</span><br><span class="line">[2018-07-18T21:59:36,652][INFO ][org.apache.kafka.common.utils.AppInfoParser] Kafka commitId : aaa7af6d4a11b29d</span><br></pre></td></tr></table></figure>
-<h4 id="5-kafka-server-端日志报错"><a href="#5-kafka-server-端日志报错" class="headerlink" title="5. kafka server 端日志报错"></a>5. kafka server 端日志报错</h4><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[2018-07-18 21:59:36,805] ERROR Processor got uncaught exception. (kafka.network.Processor)</span><br><span class="line">java.lang.ArrayIndexOutOfBoundsException: 18</span><br><span class="line">	at org.apache.kafka.common.protocol.ApiKeys.forId(ApiKeys.java:68)</span><br><span class="line">	at org.apache.kafka.common.requests.AbstractRequest.getRequest(AbstractRequest.java:39)</span><br><span class="line">	at kafka.network.RequestChannel$Request.&lt;init&gt;(RequestChannel.scala:79)</span><br><span class="line">	at kafka.network.Processor$$anonfun$run$11.apply(SocketServer.scala:426)</span><br><span class="line">	at kafka.network.Processor$$anonfun$run$11.apply(SocketServer.scala:421)</span><br><span class="line">	at scala.collection.Iterator$class.foreach(Iterator.scala:742)</span><br><span class="line">	at scala.collection.AbstractIterator.foreach(Iterator.scala:1194)</span><br><span class="line">	at scala.collection.IterableLike$class.foreach(IterableLike.scala:72)</span><br><span class="line">	at scala.collection.AbstractIterable.foreach(Iterable.scala:54)</span><br><span class="line">	at kafka.network.Processor.run(SocketServer.scala:421)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:748)</span><br></pre></td></tr></table></figure>
-<h3 id="logstash-input-kafka本地安装"><a href="#logstash-input-kafka本地安装" class="headerlink" title="logstash-input-kafka本地安装"></a>logstash-input-kafka本地安装</h3><h4 id="1-查看现有logstash-input-kafka相关插件"><a href="#1-查看现有logstash-input-kafka相关插件" class="headerlink" title="1.查看现有logstash-input-kafka相关插件"></a>1.查看现有logstash-input-kafka相关插件</h4><p>通过上文的kafka对比关系表格知道，默认安装的版本太高，与kafka_2.11-0.9.0.1不兼容.<br><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  logstash-6.2.3 ./bin/logstash-plugin list --verbose | grep kafka</span><br><span class="line">logstash-input-kafka (8.0.4)</span><br><span class="line">logstash-output-kafka (7.0.8)</span><br><span class="line">➜  logstash-6.2.3</span><br></pre></td></tr></table></figure></p>
-<h4 id="2-移除现有高版本-logstash-input-kafka"><a href="#2-移除现有高版本-logstash-input-kafka" class="headerlink" title="2.移除现有高版本 logstash-input-kafka"></a>2.移除现有高版本 logstash-input-kafka</h4><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  logstash-6.2.3 ./bin/logstash-plugin remove logstash-input-kafka</span><br><span class="line">Successfully removed logstash-input-kafka</span><br><span class="line">➜  logstash-6.2.3 </span><br><span class="line">➜  logstash-6.2.3 ./bin/logstash-plugin list --verbose | grep kafka</span><br><span class="line">logstash-output-kafka (7.0.8)</span><br><span class="line">➜  logstash-6.2.3</span><br></pre></td></tr></table></figure>
-<h4 id="3-本地安装"><a href="#3-本地安装" class="headerlink" title="3.本地安装"></a>3.本地安装</h4><p>下载 <a href="https://rubygems.org/gems/logstash-input-kafka/versions/4.2.0" target="_blank" rel="noopener">logstash-input-kafka-4.2.0.gem</a>，并保存到 ${logstash.home} 下，安装：<br><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">➜  logstash-6.2.3 ./bin/logstash-plugin install  --local --no-verify logstash-input-kafka-4.2.0.gem</span><br><span class="line">Installing logstash-input-kafka</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">^C%                         </span><br><span class="line">➜  logstash-6.2.3 ./bin/logstash-plugin list --verbose | grep kafka                                </span><br><span class="line">logstash-input-kafka (4.2.0)</span><br><span class="line">logstash-output-kafka (7.0.8)</span><br><span class="line">➜  logstash-6.2.3</span><br></pre></td></tr></table></figure></p>
+<h4 id="kafka-server-端日志报错"><a href="#kafka-server-端日志报错" class="headerlink" title="kafka server 端日志报错"></a>kafka server 端日志报错</h4><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[2018-07-18 21:59:36,805] ERROR Processor got uncaught exception. (kafka.network.Processor)</span><br><span class="line">java.lang.ArrayIndexOutOfBoundsException: 18</span><br><span class="line">	at org.apache.kafka.common.protocol.ApiKeys.forId(ApiKeys.java:68)</span><br><span class="line">	at org.apache.kafka.common.requests.AbstractRequest.getRequest(AbstractRequest.java:39)</span><br><span class="line">	at kafka.network.RequestChannel$Request.&lt;init&gt;(RequestChannel.scala:79)</span><br><span class="line">	at kafka.network.Processor$$anonfun$run$11.apply(SocketServer.scala:426)</span><br><span class="line">	at kafka.network.Processor$$anonfun$run$11.apply(SocketServer.scala:421)</span><br><span class="line">	at scala.collection.Iterator$class.foreach(Iterator.scala:742)</span><br><span class="line">	at scala.collection.AbstractIterator.foreach(Iterator.scala:1194)</span><br><span class="line">	at scala.collection.IterableLike$class.foreach(IterableLike.scala:72)</span><br><span class="line">	at scala.collection.AbstractIterable.foreach(Iterable.scala:54)</span><br><span class="line">	at kafka.network.Processor.run(SocketServer.scala:421)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:748)</span><br></pre></td></tr></table></figure>
+<h3 id="logstash-input-kafka本地安装"><a href="#logstash-input-kafka本地安装" class="headerlink" title="logstash-input-kafka本地安装"></a>logstash-input-kafka本地安装</h3><h4 id="查看现有logstash-input-kafka相关插件"><a href="#查看现有logstash-input-kafka相关插件" class="headerlink" title="查看现有logstash-input-kafka相关插件"></a>查看现有logstash-input-kafka相关插件</h4><p>通过上文的kafka对比关系表格知道，默认安装的版本太高，与kafka_2.11-0.9.0.1不兼容.<br><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  logstash-6.2.3 ./bin/logstash-plugin list --verbose | grep kafka</span><br><span class="line">logstash-input-kafka (8.0.4)</span><br><span class="line">logstash-output-kafka (7.0.8)</span><br><span class="line">➜  logstash-6.2.3</span><br></pre></td></tr></table></figure></p>
+<h4 id="移除现有高版本-logstash-input-kafka"><a href="#移除现有高版本-logstash-input-kafka" class="headerlink" title="移除现有高版本 logstash-input-kafka"></a>移除现有高版本 logstash-input-kafka</h4><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  logstash-6.2.3 ./bin/logstash-plugin remove logstash-input-kafka</span><br><span class="line">Successfully removed logstash-input-kafka</span><br><span class="line">➜  logstash-6.2.3 </span><br><span class="line">➜  logstash-6.2.3 ./bin/logstash-plugin list --verbose | grep kafka</span><br><span class="line">logstash-output-kafka (7.0.8)</span><br><span class="line">➜  logstash-6.2.3</span><br></pre></td></tr></table></figure>
+<h4 id="本地安装"><a href="#本地安装" class="headerlink" title="本地安装"></a>本地安装</h4><p>下载 <a href="https://rubygems.org/gems/logstash-input-kafka/versions/4.2.0" target="_blank" rel="noopener">logstash-input-kafka-4.2.0.gem</a>，并保存到 ${logstash.home} 下，安装：<br><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">➜  logstash-6.2.3 ./bin/logstash-plugin install  --local --no-verify logstash-input-kafka-4.2.0.gem</span><br><span class="line">Installing logstash-input-kafka</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">^C%                         </span><br><span class="line">➜  logstash-6.2.3 ./bin/logstash-plugin list --verbose | grep kafka                                </span><br><span class="line">logstash-input-kafka (4.2.0)</span><br><span class="line">logstash-output-kafka (7.0.8)</span><br><span class="line">➜  logstash-6.2.3</span><br></pre></td></tr></table></figure></p>
 <p><strong>注意：</strong> 在执行本地安装命令后，console一直处于 Installing, 这时候，可以新开一个窗口去判断当前的 plugin 中，input-kafka(4.2.0) 是否已经存现，若已经出现，则证明已经安装完成。</p>
-<h4 id="4-重新启动-logstash"><a href="#4-重新启动-logstash" class="headerlink" title="4.重新启动 logstash"></a>4.重新启动 logstash</h4><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">➜  logstash-6.2.3 ./bin/logstash -f test.conf </span><br><span class="line">Sending Logstash's logs to /Users/huke/Applications/logstash-6.2.3/logs which is now configured via log4j2.properties</span><br><span class="line">[2018-07-18T22:15:45,822][INFO ][logstash.modules.scaffold] Initializing module &#123;:module_name=&gt;"netflow", :directory=&gt;"/Users/huke/Applications/logstash-6.2.3/modules/netflow/configuration"&#125;</span><br><span class="line">[2018-07-18T22:15:45,837][INFO ][logstash.modules.scaffold] Initializing module &#123;:module_name=&gt;"fb_apache", :directory=&gt;"/Users/huke/Applications/logstash-6.2.3/modules/fb_apache/configuration"&#125;</span><br><span class="line">[2018-07-18T22:15:46,017][WARN ][logstash.config.source.multilocal] Ignoring the 'pipelines.yml' file because modules or command line options are specified</span><br><span class="line">[2018-07-18T22:15:46,507][INFO ][logstash.runner          ] Starting Logstash &#123;"logstash.version"=&gt;"6.2.3"&#125;</span><br><span class="line">[2018-07-18T22:15:46,927][INFO ][logstash.agent           ] Successfully started Logstash API endpoint &#123;:port=&gt;9600&#125;</span><br><span class="line">[2018-07-18T22:15:48,719][INFO ][logstash.pipeline        ] Starting pipeline &#123;:pipeline_id=&gt;"main", "pipeline.workers"=&gt;8, "pipeline.batch.size"=&gt;125, "pipeline.batch.delay"=&gt;50&#125;</span><br><span class="line">[2018-07-18T22:15:48,802][INFO ][logstash.pipeline        ] Pipeline started succesfully &#123;:pipeline_id=&gt;"main", :thread=&gt;"#&lt;Thread:0x5b664272 run&gt;"&#125;</span><br><span class="line">[2018-07-18T22:15:48,980][INFO ][org.apache.kafka.clients.consumer.ConsumerConfig] ConsumerConfig values: </span><br><span class="line">	metric.reporters = []</span><br><span class="line">	metadata.max.age.ms = 300000</span><br><span class="line">	value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer</span><br><span class="line">	group.id = huke-log-test</span><br><span class="line">	partition.assignment.strategy = [org.apache.kafka.clients.consumer.RangeAssignor]</span><br><span class="line">	reconnect.backoff.ms = 50</span><br><span class="line">	sasl.kerberos.ticket.renew.window.factor = 0.8</span><br><span class="line">	max.partition.fetch.bytes = 1048576</span><br><span class="line">	bootstrap.servers = [localhost:9092]</span><br><span class="line">	retry.backoff.ms = 100</span><br><span class="line">	sasl.kerberos.kinit.cmd = /usr/bin/kinit</span><br><span class="line">	sasl.kerberos.service.name = null</span><br><span class="line">	sasl.kerberos.ticket.renew.jitter = 0.05</span><br><span class="line">	ssl.keystore.type = JKS</span><br><span class="line">	ssl.trustmanager.algorithm = PKIX</span><br><span class="line">	enable.auto.commit = true</span><br><span class="line">	ssl.key.password = null</span><br><span class="line">	fetch.max.wait.ms = 500</span><br><span class="line">	sasl.kerberos.min.time.before.relogin = 60000</span><br><span class="line">	connections.max.idle.ms = 540000</span><br><span class="line">	ssl.truststore.password = null</span><br><span class="line">	session.timeout.ms = 30000</span><br><span class="line">	metrics.num.samples = 2</span><br><span class="line">	client.id = logstash</span><br><span class="line">	ssl.endpoint.identification.algorithm = null</span><br><span class="line">	key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer</span><br><span class="line">	ssl.protocol = TLS</span><br><span class="line">	check.crcs = true</span><br><span class="line">	request.timeout.ms = 40000</span><br><span class="line">	ssl.provider = null</span><br><span class="line">	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]</span><br><span class="line">	ssl.keystore.location = null</span><br><span class="line">	heartbeat.interval.ms = 3000</span><br><span class="line">	auto.commit.interval.ms = 10</span><br><span class="line">	receive.buffer.bytes = 32768</span><br><span class="line">	ssl.cipher.suites = null</span><br><span class="line">	ssl.truststore.type = JKS</span><br><span class="line">	security.protocol = PLAINTEXT</span><br><span class="line">	ssl.truststore.location = null</span><br><span class="line">	ssl.keystore.password = null</span><br><span class="line">	ssl.keymanager.algorithm = SunX509</span><br><span class="line">	metrics.sample.window.ms = 30000</span><br><span class="line">	fetch.min.bytes = 1</span><br><span class="line">	send.buffer.bytes = 131072</span><br><span class="line">	auto.offset.reset = latest</span><br><span class="line"></span><br><span class="line">[2018-07-18T22:15:48,992][INFO ][logstash.agent           ] Pipelines running &#123;:count=&gt;1, :pipelines=&gt;["main"]&#125;</span><br><span class="line">[2018-07-18T22:15:49,101][INFO ][org.apache.kafka.common.utils.AppInfoParser] Kafka version : 0.9.0.1</span><br><span class="line">[2018-07-18T22:15:49,101][INFO ][org.apache.kafka.common.utils.AppInfoParser] Kafka commitId : 23c69d62a0cabf06</span><br><span class="line">2018-07-18T14:15:50.334Z %&#123;host&#125; 2018-07-18 22:15:50,290 hello 47</span><br><span class="line">2018-07-18T14:15:51.316Z %&#123;host&#125; 2018-07-18 22:15:51,312 hello 48</span><br><span class="line">2018-07-18T14:15:52.324Z %&#123;host&#125; 2018-07-18 22:15:52,320 hello 49</span><br><span class="line">2018-07-18T14:15:53.329Z %&#123;host&#125; 2018-07-18 22:15:53,327 hello 50</span><br><span class="line">2018-07-18T14:15:54.334Z %&#123;host&#125; 2018-07-18 22:15:54,330 hello 51</span><br><span class="line">2018-07-18T14:15:55.338Z %&#123;host&#125; 2018-07-18 22:15:55,335 hello 52</span><br><span class="line">2018-07-18T14:15:56.344Z %&#123;host&#125; 2018-07-18 22:15:56,340 hello 53</span><br><span class="line"></span><br><span class="line">********  省略  ******</span><br></pre></td></tr></table></figure>
+<h4 id="重新启动-logstash"><a href="#重新启动-logstash" class="headerlink" title="重新启动 logstash"></a>重新启动 logstash</h4><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">➜  logstash-6.2.3 ./bin/logstash -f test.conf </span><br><span class="line">Sending Logstash's logs to /Users/huke/Applications/logstash-6.2.3/logs which is now configured via log4j2.properties</span><br><span class="line">[2018-07-18T22:15:45,822][INFO ][logstash.modules.scaffold] Initializing module &#123;:module_name=&gt;"netflow", :directory=&gt;"/Users/huke/Applications/logstash-6.2.3/modules/netflow/configuration"&#125;</span><br><span class="line">[2018-07-18T22:15:45,837][INFO ][logstash.modules.scaffold] Initializing module &#123;:module_name=&gt;"fb_apache", :directory=&gt;"/Users/huke/Applications/logstash-6.2.3/modules/fb_apache/configuration"&#125;</span><br><span class="line">[2018-07-18T22:15:46,017][WARN ][logstash.config.source.multilocal] Ignoring the 'pipelines.yml' file because modules or command line options are specified</span><br><span class="line">[2018-07-18T22:15:46,507][INFO ][logstash.runner          ] Starting Logstash &#123;"logstash.version"=&gt;"6.2.3"&#125;</span><br><span class="line">[2018-07-18T22:15:46,927][INFO ][logstash.agent           ] Successfully started Logstash API endpoint &#123;:port=&gt;9600&#125;</span><br><span class="line">[2018-07-18T22:15:48,719][INFO ][logstash.pipeline        ] Starting pipeline &#123;:pipeline_id=&gt;"main", "pipeline.workers"=&gt;8, "pipeline.batch.size"=&gt;125, "pipeline.batch.delay"=&gt;50&#125;</span><br><span class="line">[2018-07-18T22:15:48,802][INFO ][logstash.pipeline        ] Pipeline started succesfully &#123;:pipeline_id=&gt;"main", :thread=&gt;"#&lt;Thread:0x5b664272 run&gt;"&#125;</span><br><span class="line">[2018-07-18T22:15:48,980][INFO ][org.apache.kafka.clients.consumer.ConsumerConfig] ConsumerConfig values: </span><br><span class="line">	metric.reporters = []</span><br><span class="line">	metadata.max.age.ms = 300000</span><br><span class="line">	value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer</span><br><span class="line">	group.id = huke-log-test</span><br><span class="line">	partition.assignment.strategy = [org.apache.kafka.clients.consumer.RangeAssignor]</span><br><span class="line">	reconnect.backoff.ms = 50</span><br><span class="line">	sasl.kerberos.ticket.renew.window.factor = 0.8</span><br><span class="line">	max.partition.fetch.bytes = 1048576</span><br><span class="line">	bootstrap.servers = [localhost:9092]</span><br><span class="line">	retry.backoff.ms = 100</span><br><span class="line">	sasl.kerberos.kinit.cmd = /usr/bin/kinit</span><br><span class="line">	sasl.kerberos.service.name = null</span><br><span class="line">	sasl.kerberos.ticket.renew.jitter = 0.05</span><br><span class="line">	ssl.keystore.type = JKS</span><br><span class="line">	ssl.trustmanager.algorithm = PKIX</span><br><span class="line">	enable.auto.commit = true</span><br><span class="line">	ssl.key.password = null</span><br><span class="line">	fetch.max.wait.ms = 500</span><br><span class="line">	sasl.kerberos.min.time.before.relogin = 60000</span><br><span class="line">	connections.max.idle.ms = 540000</span><br><span class="line">	ssl.truststore.password = null</span><br><span class="line">	session.timeout.ms = 30000</span><br><span class="line">	metrics.num.samples = 2</span><br><span class="line">	client.id = logstash</span><br><span class="line">	ssl.endpoint.identification.algorithm = null</span><br><span class="line">	key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer</span><br><span class="line">	ssl.protocol = TLS</span><br><span class="line">	check.crcs = true</span><br><span class="line">	request.timeout.ms = 40000</span><br><span class="line">	ssl.provider = null</span><br><span class="line">	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]</span><br><span class="line">	ssl.keystore.location = null</span><br><span class="line">	heartbeat.interval.ms = 3000</span><br><span class="line">	auto.commit.interval.ms = 10</span><br><span class="line">	receive.buffer.bytes = 32768</span><br><span class="line">	ssl.cipher.suites = null</span><br><span class="line">	ssl.truststore.type = JKS</span><br><span class="line">	security.protocol = PLAINTEXT</span><br><span class="line">	ssl.truststore.location = null</span><br><span class="line">	ssl.keystore.password = null</span><br><span class="line">	ssl.keymanager.algorithm = SunX509</span><br><span class="line">	metrics.sample.window.ms = 30000</span><br><span class="line">	fetch.min.bytes = 1</span><br><span class="line">	send.buffer.bytes = 131072</span><br><span class="line">	auto.offset.reset = latest</span><br><span class="line"></span><br><span class="line">[2018-07-18T22:15:48,992][INFO ][logstash.agent           ] Pipelines running &#123;:count=&gt;1, :pipelines=&gt;["main"]&#125;</span><br><span class="line">[2018-07-18T22:15:49,101][INFO ][org.apache.kafka.common.utils.AppInfoParser] Kafka version : 0.9.0.1</span><br><span class="line">[2018-07-18T22:15:49,101][INFO ][org.apache.kafka.common.utils.AppInfoParser] Kafka commitId : 23c69d62a0cabf06</span><br><span class="line">2018-07-18T14:15:50.334Z %&#123;host&#125; 2018-07-18 22:15:50,290 hello 47</span><br><span class="line">2018-07-18T14:15:51.316Z %&#123;host&#125; 2018-07-18 22:15:51,312 hello 48</span><br><span class="line">2018-07-18T14:15:52.324Z %&#123;host&#125; 2018-07-18 22:15:52,320 hello 49</span><br><span class="line">2018-07-18T14:15:53.329Z %&#123;host&#125; 2018-07-18 22:15:53,327 hello 50</span><br><span class="line">2018-07-18T14:15:54.334Z %&#123;host&#125; 2018-07-18 22:15:54,330 hello 51</span><br><span class="line">2018-07-18T14:15:55.338Z %&#123;host&#125; 2018-07-18 22:15:55,335 hello 52</span><br><span class="line">2018-07-18T14:15:56.344Z %&#123;host&#125; 2018-07-18 22:15:56,340 hello 53</span><br><span class="line"></span><br><span class="line">********  省略  ******</span><br></pre></td></tr></table></figure>
 <p><strong>注: logstash启动成功后，显示 kafka 版本已经变更为 0.9.0.1, 且console有显示kafka数据，plugin降级成功过</strong></p>
 <p>参考： <a href="https://discuss.elastic.co/t/installation-of-logstash-input-kafka-without-internet-connection/92625/3" target="_blank" rel="noopener">Installation of logstash-input-kafka without internet connection</a></p>
 
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/18/logstash-input-kafka-version/" data-id="cjk0sbf2d000460q38ulqbh55" class="article-share-link">Compartir</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/logstash-kafka-elk/">logstash, kafka, elk</a></li></ul>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/logstash-kafka-elk/" rel="tag"># logstash, kafka, elk</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/12/javacv-face-recognizer/" rel="next" title="JavaCV进行人脸识别">
+                <i class="fa fa-chevron-left"></i> JavaCV进行人脸识别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/19/elasticsearch-6-2-3-upgrade-to-6-3-1/" rel="prev" title="elasticsearch 6.2升级到6.3.1">
+                elasticsearch 6.2升级到6.3.1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
     </footer>
   </div>
   
-    
-<nav id="article-nav">
   
-    <a href="/2018/07/19/elasticsearch-6-2-3-upgrade-to-6-3-1/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Nuevo</strong>
-      <div class="article-nav-title">
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
         
-          elasticsearch 6.2升级到6.3.1
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">kaden</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">Artikel</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">Tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wusthuke@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-wusthke"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#logstash-input-kafka-与-kafka的匹配关系"><span class="nav-number">1.</span> <span class="nav-text">logstash-input-kafka 与 kafka的匹配关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题复现"><span class="nav-number">2.</span> <span class="nav-text">问题复现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#启动kafka-0-9"><span class="nav-number">2.1.</span> <span class="nav-text">启动kafka 0.9</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编码程序不停往-logs9-中生产数据"><span class="nav-number">2.2.</span> <span class="nav-text">编码程序不停往 logs9 中生产数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置logstash消费kafka"><span class="nav-number">2.3.</span> <span class="nav-text">配置logstash消费kafka</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动logstash"><span class="nav-number">2.4.</span> <span class="nav-text">启动logstash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#kafka-server-端日志报错"><span class="nav-number">2.5.</span> <span class="nav-text">kafka server 端日志报错</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#logstash-input-kafka本地安装"><span class="nav-number">3.</span> <span class="nav-text">logstash-input-kafka本地安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#查看现有logstash-input-kafka相关插件"><span class="nav-number">3.1.</span> <span class="nav-text">查看现有logstash-input-kafka相关插件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#移除现有高版本-logstash-input-kafka"><span class="nav-number">3.2.</span> <span class="nav-text">移除现有高版本 logstash-input-kafka</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#本地安装"><span class="nav-number">3.3.</span> <span class="nav-text">本地安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重新启动-logstash"><span class="nav-number">3.4.</span> <span class="nav-text">重新启动 logstash</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
-  
-  
-    <a href="/2018/07/12/javacv-face-recognizer/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Viejo</strong>
-      <div class="article-nav-title">JavaCV进行人脸识别</div>
-    </a>
-  
-</nav>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">kaden</span>
 
   
-</article>
+</div>
 
-</section>
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
         
-          <aside id="sidebar">
-  
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch/">elasticsearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/face/">face</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/intelij/">intelij</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javacv/">javacv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jrebel/">jrebel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logstash-kafka-elk/">logstash, kafka, elk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opencv/">opencv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/人脸识别/">人脸识别</a></li></ul>
-    </div>
-  </div>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Nube de Tags</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/elasticsearch/" style="font-size: 10px;">elasticsearch</a> <a href="/tags/face/" style="font-size: 10px;">face</a> <a href="/tags/intelij/" style="font-size: 10px;">intelij</a> <a href="/tags/javacv/" style="font-size: 10px;">javacv</a> <a href="/tags/jrebel/" style="font-size: 10px;">jrebel</a> <a href="/tags/logstash-kafka-elk/" style="font-size: 10px;">logstash, kafka, elk</a> <a href="/tags/opencv/" style="font-size: 10px;">opencv</a> <a href="/tags/springboot/" style="font-size: 10px;">springboot</a> <a href="/tags/人脸识别/" style="font-size: 10px;">人脸识别</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archivos</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
-    </div>
-  </div>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Posts recientes</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2018/07/19/elasticsearch-6-2-3-upgrade-to-6-3-1/">elasticsearch 6.2升级到6.3.1</a>
-          </li>
-        
-          <li>
-            <a href="/2018/07/18/logstash-input-kafka-version/">logstash-6.2.3无法消费kafka-0.9.0</a>
-          </li>
-        
-          <li>
-            <a href="/2018/07/12/javacv-face-recognizer/">JavaCV进行人脸识别</a>
-          </li>
-        
-          <li>
-            <a href="/2018/07/10/intelij-jrebel-crack/">Jrebel热部署插件破解</a>
-          </li>
-        
-          <li>
-            <a href="/2018/06/11/spring-boot-starter-order/">SpringBoot启动及定制化开发</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
 
-  
-</aside>
+
+
         
       </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 kaden<br>
-      Construido por <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
     
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
+    
 
   </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>
