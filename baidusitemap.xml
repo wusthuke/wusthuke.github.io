@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+  <url>
+    <loc>http://huke.jobcustom.com/2018/07/27/test/</loc>
+    <lastmod>2018-07-27T08:47:49.143Z</lastmod>
+    <data>
+        <display>
+        <title>test</title>
+        <pubTime>2018-07-27T08:47:49.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
+    <loc>http://huke.jobcustom.com/2018/06/09/hello-world/</loc>
+    <lastmod>2018-07-26T14:48:10.516Z</lastmod>
+    <data>
+        <display>
+        <title>Hello World</title>
+        <pubTime>2018-06-09T08:25:08.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://huke.jobcustom.com/2018/07/18/logstash-input-kafka-version/</loc>
+    <lastmod>2018-07-26T08:48:48.883Z</lastmod>
+    <data>
+        <display>
+        <title>logstash-6.2.3无法消费kafka-0.9.0</title>
+        <pubTime>2018-07-18T09:53:58.000Z</pubTime>
+        
+        <tag>logstash, kafka, elk</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://huke.jobcustom.com/2018/07/19/elasticsearch-6-2-3-upgrade-to-6-3-1/</loc>
+    <lastmod>2018-07-26T08:48:07.342Z</lastmod>
+    <data>
+        <display>
+        <title>elasticsearch 6.2升级到6.3.1</title>
+        <pubTime>2018-07-19T08:25:08.000Z</pubTime>
+        
+        <tag>elasticsearch</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://huke.jobcustom.com/2018/07/12/javacv-face-recognizer/</loc>
+    <lastmod>2018-07-18T14:30:33.913Z</lastmod>
+    <data>
+        <display>
+        <title>JavaCV进行人脸识别</title>
+        <pubTime>2018-07-12T10:10:02.000Z</pubTime>
+        
+        <tag>javacv</tag>
+         
+        <tag>opencv</tag>
+         
+        <tag>人脸识别</tag>
+         
+        <tag>face</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://huke.jobcustom.com/2018/07/10/intelij-jrebel-crack/</loc>
+    <lastmod>2018-07-10T15:41:24.519Z</lastmod>
+    <data>
+        <display>
+        <title>Jrebel热部署插件破解</title>
+        <pubTime>2018-07-10T10:17:21.000Z</pubTime>
+        
+        <tag>intelij</tag>
+         
+        <tag>jrebel</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://huke.jobcustom.com/2018/06/11/spring-boot-starter-order/</loc>
+    <lastmod>2018-06-11T15:16:57.489Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot启动及定制化开发</title>
+        <pubTime>2018-06-11T15:06:43.000Z</pubTime>
+        
+        <tag>springboot</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+</urlset>
